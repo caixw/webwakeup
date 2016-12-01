@@ -1,0 +1,13 @@
+[Unit]
+Description=web wakeup daemon
+After=network.target
+
+[Service]
+PIDFile=/tmp/web-wakeup.pid-404
+User=root
+Group=root
+WorkingDirectory=/usr/local/webwakeup
+ExecStart=/usr/local/webwakeup/webwakeup
+
+[Install]
+WantedBy=multi-user.target
