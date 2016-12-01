@@ -1,0 +1,11 @@
+{
+    "port":":8088",
+    "tasks":[
+        {
+            "path": "/admin",
+            "command": "./shell/abc.sh",
+            "password":"123",
+            args:["1","2"]
+        }
+    ]
+}
