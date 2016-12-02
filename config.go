@@ -12,6 +12,7 @@ import (
 	"os/exec"
 
 	"github.com/issue9/logs"
+	"github.com/issue9/utils"
 )
 
 type config struct {
@@ -43,6 +44,15 @@ func loadConfig(path string) (*config, error) {
 
 	if len(conf.Port) == 0 {
 		return nil, errors.New("必须指定端口号")
+	}
+
+	if conf.HTTPS {
+		if !utils.FileExists(conf.KeyFile) {
+			return nil, errors.New("keyFile 并不存在")
+		}
+		if !utils.FileExists(conf.CertFile) {
+			return nil, errors.New("certFile 并不存在")
+		}
 	}
 
 	if len(conf.Tasks) == 0 {
