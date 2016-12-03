@@ -5,3 +5,4 @@ go:
 install:
     - go get github.com/issue9/assert
     - go get github.com/issue9/utils
+    - go get github.com/issue9/logs
