@@ -9,6 +9,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"os/exec"
 
 	"github.com/issue9/logs"
@@ -74,12 +75,15 @@ func loadConfig(path string) (*config, error) {
 }
 
 func (t *task) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	logs.Infof("触发事件：%v", t.Path)
 	if r.FormValue("password") != t.Password {
 		w.WriteHeader(http.StatusForbidden)
 		return
 	}
 
 	cmd := exec.Command(t.Command, t.Args...)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
 	if err := cmd.Run(); err != nil {
 		logs.Error(err)
 		w.WriteHeader(http.StatusInternalServerError)
