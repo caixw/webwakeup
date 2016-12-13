@@ -28,7 +28,7 @@ type task struct {
 	Password string   `json:"password"` // 密码
 	Command  string   `json:"command"`  // 执行的命令
 	Args     []string `json:"args"`     // 参数
-	cmd      *exec.Cmd
+	//cmd      *exec.Cmd
 }
 
 // 加载配置文件
@@ -68,7 +68,6 @@ func loadConfig(path string) (*config, error) {
 			return nil, errors.New("command不能为空")
 		}
 
-		task.cmd = exec.Command(task.Command, task.Args...)
 	}
 
 	return conf, nil
@@ -80,7 +79,8 @@ func (t *task) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := t.cmd.Run(); err != nil {
+	cmd := exec.Command(t.Command, t.Args...)
+	if err := cmd.Run(); err != nil {
 		logs.Error(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return

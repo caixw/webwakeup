@@ -43,6 +43,7 @@ func main() {
 	}
 
 	for _, task := range conf.Tasks {
+		logs.Infof("开始监听：%v", task.Path)
 		http.HandleFunc(task.Path, task.ServeHTTP)
 	}
 
@@ -61,5 +62,8 @@ func initLogs(path string) error {
 	logs.SetWriter(logs.LevelCritical, os.Stderr, "", log.LstdFlags)
 	logs.SetWriter(logs.LevelError, os.Stderr, "", log.LstdFlags)
 	logs.SetWriter(logs.LevelWarn, os.Stderr, "", log.LstdFlags)
+	logs.SetWriter(logs.LevelInfo, os.Stdout, "", log.LstdFlags)
+	logs.SetWriter(logs.LevelTrace, os.Stdout, "", log.LstdFlags)
+	logs.SetWriter(logs.LevelDebug, os.Stdout, "", log.LstdFlags)
 	return nil
 }
